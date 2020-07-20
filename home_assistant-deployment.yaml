@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home_assistant
+  labels:
+    app: home_assistant 
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingRequiredDuringExecution:
+      - labelSelector:
+        matchExpressions:
+          - key: pi-v3
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home_assistant 
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: home_assistant
+    spec:
+      hostNetwork: true  
+      containers:
+      - env:
+	TZ: "America/Denver"
+        image: homeassistant/raspberrypi3-homeassistant:latest
+        imagePullPolicy: "Always"
+        name: home_assistant 
+	volumeMounts:
+	- name: config
+	  mountPath: /config
+      volumes:
+      - name: home_assistant 
+        persistentVolumeClaim:
+          claimName: synology-home_assistant
