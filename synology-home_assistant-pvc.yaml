@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: synology-home_assistant
+  name: synology-homeassistant
 spec:
   accessModes:
     - ReadWriteMany
