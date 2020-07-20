@@ -36,6 +36,7 @@ spec:
         volumeMounts:
         - name: homeassistant 
           mountPath: /config
+          subPath: homeassistant
       volumes:
       - name: homeassistant 
         persistentVolumeClaim:
