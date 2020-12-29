@@ -1,14 +1,15 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: homeassistant
   labels:
-    app: homeassistant 
+    app: homeassistant
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: homeassistant 
+      app: homeassistant
   strategy:
     type: Recreate
   template:
@@ -16,28 +17,23 @@ spec:
       labels:
         app: homeassistant
     spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: hardware
-                    operator: In
-                    values: 
-                    - pi-v3
-      hostNetwork: true  
+      hostNetwork: true
       containers:
-      - env:
-        - name: TZ
-          value: "America/Denver"
-        image: homeassistant/raspberrypi3-homeassistant:latest
-        imagePullPolicy: "Always"
-        name: homeassistant 
-        volumeMounts:
-        - name: homeassistant 
-          mountPath: /config
-          subPath: homeassistant
+        - name: homeassistant
+          imagePullPolicy: "Always"
+          image: homeassistant/home-assistant:stable
+          env:
+            - name: TZ
+              value: "America/Denver"
+          # ports:
+          #   - name: http
+          #     containerPort: 8123
+          #     protocol: TCP
+          volumeMounts:
+            - name: homeassistant
+              mountPath: /config
+              subPath: homeassistant/config
       volumes:
-      - name: homeassistant 
-        persistentVolumeClaim:
-          claimName: synology-homeassistant
+        - name: homeassistant
+          persistentVolumeClaim:
+            claimName: synology-homeassistant
