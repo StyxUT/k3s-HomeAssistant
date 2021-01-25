@@ -1,0 +1,11 @@
+- name: Home
+  latitude: !secret home_latitude
+  longitude: !secret home_longitude
+  radius: 100
+  icon: mdi:account-multiple
+
+- name: Home Area
+  latitude:  !secret home_area_latitude
+  longitude: !secret home_area_longitude
+  radius: 1569.1240406853476
+  icon: mdi:account-multiple

@@ -1,0 +1,104 @@
+- id: bonus_room_enterance_light_on_at_sunset
+  alias: Bonus Room Enterence Light - Evening On
+  description: Turn on Bonus Room Enterence Light at sunset
+  trigger:
+    platform: sun
+    event: sunset
+    offset: 00:05:00
+  action:
+    service: homeassistant.turn_on
+    entity_id: switch.bonus_room_enterance_light
+- id: salt_lamp_evening_on
+  alias: Salt Lamp - Evening On
+  description: Turn on Salt Lamp after sunset
+  trigger:
+    platform: sun
+    event: sunset
+    offset: 00:45:00
+  action:
+    service: homeassistant.turn_on
+    entity_id: switch.salt_lamp
+- id: kitchen_light_evening_on
+  alias: Kitchen Light - Evening On
+  description: Turn on Kitchen Light after sunset
+  trigger:
+    platform: sun
+    event: sunset
+    offset: -00:05:00
+  action:
+    service: homeassistant.turn_on
+    entity_id: switch.kitchen_light
+- id: plant_light_morning_on
+  alias: Plant Light - Morning On
+  description: Turn on Plant Light after sunrise
+  trigger:
+    platform: sun
+    event: sunrise
+    offset: 00:30:00
+  action:
+    service: homeassistant.turn_on
+    entity_id: switch.plant_light
+- id: plant_light_evening_off
+  alias: plant Light - Evening Off
+  description: Turn off Plant Light before sunset
+  trigger:
+    platform: sun
+    event: sunset
+    offset: -00:30:00
+  action:
+    service: homeassistant.turn_off
+    entity_id: switch.plant_light
+- id: salt_lamp_night_off
+  alias: Salt Lamp - Night Off
+  description: Turn off Salt Lamp at night
+  trigger:
+    platform: time
+    at: '23:59:00'
+  action:
+    service: homeassistant.turn_off
+    entity_id: switch.salt_lamp
+- id: kitchen_light_night_off
+  alias: Kitchen Light - Night Off
+  description: Turn of Kitchen Light at night
+  trigger:
+    platform: time
+    at: '23:59:00'
+  action:
+    service: homeassistant.turn_off
+    entity_id: switch.kitchen_light
+- id: garage_door_delayed_off
+  alias: Back Garage Door - Delayed Off
+  description: Turn off Garage Door after two hours
+  trigger:
+    platform: state
+    to: 'on'
+    entity_id: switch.garage_door
+  action:
+  - service: homeassistant.turn_on
+    entity_id: switch.garage_door
+  - delay: 02:00:00
+  - service: homeassistant.turn_off
+    entity_id: switch.garage_door
+- id: notify_person_arriving_home
+  alias: Notification - Arriving Home
+  description: Send Eric a notification when Traci enters the Home Area zone
+  trigger:
+    platform: zone
+    entity_id: device_tracker.fairy_s_phone
+    zone: zone.home_area
+    event: enter
+  action:
+    service: notify.mobile_app_erics_iphone
+    data:
+      title: Arrival
+      message: Traci is arriving home.
+- id: lets_go_to_bed
+  alias: DeleteMe
+  trigger:
+  - platform: event
+    event_type: ios.action_fired
+    event_data:
+      actionName: Let's Go To Bed
+  action:
+  - service: script.lets_go_to_bed
+  mode: single
