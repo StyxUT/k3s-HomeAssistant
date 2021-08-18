@@ -15,5 +15,5 @@ spec:
     - hard
     - nfsvers=4.1
   nfs:
-    server: 192.168.0.2
+    server: synology.home 
     path: "/volume1/k8s-pv01"
