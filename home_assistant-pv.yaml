@@ -1,11 +1,11 @@
 ---
 apiVersion: v1
 kind: PersistentVolume
-metadata:
+metadata: 
   name: synology-homeassistant
 spec:
   capacity:
-    storage: .003Gi
+    storage: 5Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
@@ -15,5 +15,5 @@ spec:
     - hard
     - nfsvers=4.1
   nfs:
-    server: synology.home 
+    server: synology.home
     path: "/volume1/k8s-pv01"

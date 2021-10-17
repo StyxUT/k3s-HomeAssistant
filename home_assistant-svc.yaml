@@ -9,10 +9,10 @@ spec:
     app: homeassistant
   ports:
     - name: http
-      port: 8123
+      port: 8001
       protocol: TCP
-      targetPort: 8123
+      targetPort: 8001
   externalIPs:
     - 192.168.0.211
     - 192.168.0.221
-    - 192.168.0.222
+    - 192.168.0.222 

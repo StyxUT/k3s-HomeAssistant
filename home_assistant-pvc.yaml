@@ -3,10 +3,11 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: synology-homeassistant
+  namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: synology
   resources:
     requests:
-      storage: .003Gi
+      storage: 5Gi
