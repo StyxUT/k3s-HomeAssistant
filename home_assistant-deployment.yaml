@@ -22,10 +22,10 @@ spec:
         - name: homeassistant
           imagePullPolicy: "Always"
           image: homeassistant/home-assistant:stable
-          #ports:
-          # - name: http
-          #   containerPort: 8321
-          #   protocol: TCP
+          ports:
+          - name: http
+            containerPort: 8123
+            protocol: TCP
           env:
             - name: TZ
               value: "America/Denver"
