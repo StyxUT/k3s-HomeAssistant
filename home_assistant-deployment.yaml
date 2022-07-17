@@ -21,7 +21,7 @@ spec:
       containers:
         - name: homeassistant
           imagePullPolicy: "Always"
-          image: homeassistant/home-assistant:stable
+          image: homeassistant/home-assistant:latest
           ports:
           - name: http
             containerPort: 8123
@@ -30,10 +30,10 @@ spec:
             - name: TZ
               value: "America/Denver"
           volumeMounts:
-            - name: homeassistant
+            - name: k8s-pv01
               mountPath: /config
               subPath: homeassistant/config
       volumes:
-        - name: homeassistant
+        - name: k8s-pv01
           persistentVolumeClaim:
-            claimName: synology-homeassistant
+            claimName: synology-k8s-pv01

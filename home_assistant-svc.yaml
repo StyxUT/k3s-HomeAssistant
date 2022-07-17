@@ -4,7 +4,7 @@ kind: Service
 metadata:
   name: homeassistant
 spec:
-  type: NodePort
+  #type: NodePort
   selector:
     app: homeassistant
   ports:
