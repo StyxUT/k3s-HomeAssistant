@@ -17,6 +17,15 @@ spec:
       labels:
         app: homeassistant
     spec:
+      affinity:
+       nodeAffinity:
+         requiredDuringSchedulingIgnoredDuringExecution:
+           nodeSelectorTerms:
+           - matchExpressions:
+             - key: tpu
+               operator: NotIn
+               values:
+               - "true"
       hostNetwork: true
       containers:
         - name: homeassistant
@@ -26,6 +35,11 @@ spec:
           - name: http
             containerPort: 8123
             protocol: TCP
+          resources:
+            requests:
+              ephemeral-storage: "2Gi"
+            limits:
+              ephemeral-storage: "4Gi"
           env:
             - name: TZ
               value: "America/Denver"
