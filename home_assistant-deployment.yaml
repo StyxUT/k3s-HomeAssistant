@@ -17,24 +17,48 @@ spec:
       labels:
         app: homeassistant
     spec:
+      imagePullSecrets:
+        - name: image-registry-credentials
+      nodeSelector:
+        kubernetes.io/hostname: k3s-worker-04
+      dnsPolicy: ClusterFirstWithHostNet
+      tolerations:
+        - key: dedicated
+          operator: Equal
+          value: home-assistant
+          effect: NoSchedule
       affinity:
-       nodeAffinity:
-         requiredDuringSchedulingIgnoredDuringExecution:
-           nodeSelectorTerms:
-           - matchExpressions:
-             - key: tpu
-               operator: NotIn
-               values:
-               - "true"
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/automation
+                    operator: In
+                    values:
+                      - "true"
       hostNetwork: true
       containers:
         - name: homeassistant
-          imagePullPolicy: "Always"
-          image: homeassistant/home-assistant:latest
+          imagePullPolicy: "IfNotPresent"
+          image: 192.168.50.222:32050/homeassistant/home-assistant@sha256:6eb9a63721f7d30b338339f1e5551852aaa896383c6e1b411830c0b4d1f60987
           ports:
           - name: http
             containerPort: 8123
             protocol: TCP
+          startupProbe:
+            httpGet:
+              path: /
+              port: 8123
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8123
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
           resources:
             requests:
               ephemeral-storage: "2Gi"
